@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
@@ -40,23 +40,41 @@ const DUMMY_PLACES = [
 ];
 
 const UpadatePlace = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const placeId = useParams().placeId;
+
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      title: {
+        value: "",
+        isValid: false,
+      },
+      description: {
+        value: "",
+        isValid: false,
+      },
+    },
+    false
+  );
 
   const identifiedPlace = DUMMY_PLACES.find((p) => p.id === placeId);
 
-  const [formState, inputHandler] = useForm(
-    {
-      title: {
-        value: identifiedPlace.title,
-        isValid: true,
+  useEffect(() => {
+    setFormData(
+      {
+        title: {
+          value: identifiedPlace.title,
+          isValid: true,
+        },
+        description: {
+          value: identifiedPlace.description,
+          isValid: true,
+        },
       },
-      description: {
-        value: identifiedPlace.description,
-        isValid: true,
-      },
-    },
-    true
-  );
+      true
+    );
+    setIsLoading(false);
+  }, [setFormData, identifiedPlace]);
 
   const placeUpdateSubmitHandler = (event) => {
     event.preventDefault();
@@ -71,6 +89,14 @@ const UpadatePlace = () => {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="center">
+        <h2>Loading...</h2>;
+      </div>
+    );
+  }
+
   return (
     <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
       <Input
@@ -81,7 +107,7 @@ const UpadatePlace = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid title."
         onInput={inputHandler}
-        nitialValue={formState.inputs.title.value}
+        initialValue={formState.inputs.title.value}
         initialValid={formState.inputs.title.isValid}
       />
       <Input
