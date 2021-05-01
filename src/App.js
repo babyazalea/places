@@ -9,20 +9,23 @@ import {
 import Users from "./user/pages/User";
 import NewPlace from "./places/pages/NewPlace";
 import UserPlaces from "./places/pages/UserPlaces";
-import UpadatePlace from "./places/pages/UpdatePlace";
+import UpdatePlace from "./places/pages/UpdatePlace";
 import Auth from "./user/pages/Auth";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import { AuthContext } from "./shared/context/auth-context";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState("");
 
-  const login = useCallback(() => {
+  const login = useCallback((uid) => {
     setIsLoggedIn(true);
+    setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
     setIsLoggedIn(false);
+    setUserId(null);
   }, []);
 
   let routes;
@@ -40,7 +43,7 @@ function App() {
           <NewPlace />
         </Route>
         <Route path="/places/:placeId">
-          <UpadatePlace />
+          <UpdatePlace />
         </Route>
         <Redirect to="/" />
       </Switch>
@@ -64,7 +67,12 @@ function App() {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+      value={{
+        isLoggedIn: isLoggedIn,
+        login: login,
+        logout: logout,
+        userId: userId,
+      }}
     >
       <Router>
         <MainNavigation />
