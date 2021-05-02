@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import PlaceList from "../components/PlaceList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import { useHttpClient } from "../../shared/hooks/http-hooks";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 
 const UserPlaces = () => {
   const [loadedPlaces, setLoadedPlaces] = useState();

@@ -7,7 +7,7 @@ import Map from "../../shared/components/UIElements/Map";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { AuthContext } from "../../shared/context/auth-context";
-import { useHttpClient } from "../../shared/hooks/http-hooks";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import "./PlaceItem.css";
 
 const PlaceItem = (props) => {
